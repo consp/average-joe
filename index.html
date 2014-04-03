@@ -10,9 +10,7 @@
 <h1>OSIRIS-bereken-je-gemiddelde-beuntool</h1>
 
 <ul>
-  <li>Ga naar OSIRIS. Duh.</li>
-  <li>Voortgang</li>
-  <li>Dossieroverzicht</li>
+  <li>Ga naar OSIRIS. <a href="https://osistud.tudelft.nl:4445/osiris_student/Dossier.do" target="_blank">KLIK</a></li>
   <li>Beknopt</li>
   <li>Alle resultaten</li>
   <li>Examenfase: Alle</li>
@@ -60,21 +58,26 @@
             name: $($courseNames[i]).text(),
             date: $($examDates[i]).text(),
             grade: parseFloat($($examGrades[i]).text().replace(',', '.')) || $($examGrades[i]).text(),
-            ects: parseFloat($($courseECTS[i]).text())
+            ects: parseFloat($($courseECTS[i]).text().replace(',', '.'))
           }
-          if(_.isNumber(course.grade)) {
+          if(_.isNumber(course.grade) && _.isNumber(course.ects)) {
             totalGrade += course.grade * course.ects;
             totalECTS += course.ects;
           }
           data.push(course);
         }
-        $('div.osidata').html("<h1>Your weighted average is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
+
+        if (totalGrade > 0 and totalECTS > 0) {
+          $('div.osidata').html("<h1>Your weighted average is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
+        } else {
+          $('div.osidata').html("<h1>Something weird is up with your OSIRIS stuff..</h1>");
+        }
       } else {
-        alert("Strange data.");
+        $('div.osidata').html("<h1>Something weird is up with your OSIRIS stuff..</h1>");
       }
 
     } else {
-      alert("Could not read that data.");
+      $('div.osidata').html("<h1>Could not read that. Try again.</h1><p>Or get a Mac, open Chrome and try again.</p>");
     }
   });
 </script>
