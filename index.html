@@ -68,16 +68,16 @@
         }
 
         if (totalGrade > 0 && totalECTS > 0) {
-          $('div.osidata').html("<h1>Your weighted average is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
+          $('div.osidata').html("<h1>Je gewogen gemiddelde is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
         } else {
-          $('div.osidata').html("<h1>Something weird is up with your OSIRIS stuff..</h1>");
+          $('div.osidata').html("<h1>Je OSIRIS stuff klopt niet..</h1>");
         }
       } else {
-        $('div.osidata').html("<h1>Something weird is up with your OSIRIS stuff..</h1>");
+        $('div.osidata').html("<h1>Je OSIRIS stuff klopt niet..</h1>");
       }
 
     } else {
-      $('div.osidata').html("<h1>Could not read that. Try again.</h1><p>Or get a Mac, open Chrome and try again.</p>");
+      $('div.osidata').html("<h1>Je plakt onleesbare troep. Probeer het maar lekker opnieuw.</h1>");
     }
   });
 </script>
