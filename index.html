@@ -67,7 +67,7 @@
           data.push(course);
         }
 
-        if (totalGrade > 0 and totalECTS > 0) {
+        if (totalGrade > 0 && totalECTS > 0) {
           $('div.osidata').html("<h1>Your weighted average is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
         } else {
           $('div.osidata').html("<h1>Something weird is up with your OSIRIS stuff..</h1>");
