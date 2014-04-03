@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OSIRIS-bereken-je-gemiddelde-beuntool</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+</head>
+<body>
+
+<h1>OSIRIS-bereken-je-gemiddelde-beuntool</h1>
+
+<ul>
+  <li>Ga naar OSIRIS. Duh.</li>
+  <li>Voortgang</li>
+  <li>Dossieroverzicht</li>
+  <li>Beknopt</li>
+  <li>Alle resultaten</li>
+  <li>Examenfase: Alle</li>
+  <li>Uitvoeren op scherm</li>
+  <li>Klik in het venstertje</li>
+  <li>CTRL + A</li>
+  <li>CTRL + C</li>
+  <li>Ga terug naar deze pagina</li>
+  <li>CTRL + V</li>
+</ul>
+
+<div class="osidata">
+
+</div>
+
+<div>Disclaimer: Dit is een beuntool. Je krijgt geen enkele garantie dat deze shit correct is. Doe ermee wat je wilt. Of niet.</div>
+
+<div><a href="https://github.com/hylkev/average-joe">https://github.com/hylkev/average-joe</a></div>
+
+<script type="text/javascript">
+  jQuery(document).on('paste', function(e){
+    if(_.contains(e.originalEvent.clipboardData.types, 'text/html')) {
+      var pasteData = e.originalEvent.clipboardData.getData('text/html')
+      pasteData = pasteData.replace(/ style=\"[^"]*\"/g, ""); // Remove weird styles
+      pasteData = pasteData.replace(/\s+/g, " "); // Normalize spaces
+
+      var $htmlData = $(pasteData);
+
+      var $courseCodes = $('span.f27', $htmlData);
+      var $courseNames = $('span.f28', $htmlData);
+      var $examDates = $('span.f29', $htmlData);
+      var $examGrades = $('span.f30', $htmlData);
+      var $courseECTS = $('span.f31', $htmlData);
+
+      var max = Math.max($courseCodes.length, $courseNames.length, $examDates.length, $examGrades.length, $courseECTS.length);
+      var min = Math.min($courseCodes.length, $courseNames.length, $examDates.length, $examGrades.length, $courseECTS.length);
+
+      if(max == min) {
+        var data = [];
+        var totalECTS = 0;
+        var totalGrade = 0;
+        for(var i = 0; i < max; i++) {
+          course = {
+            code: $($courseCodes[i]).text(),
+            name: $($courseNames[i]).text(),
+            date: $($examDates[i]).text(),
+            grade: parseFloat($($examGrades[i]).text().replace(',', '.')) || $($examGrades[i]).text(),
+            ects: parseFloat($($courseECTS[i]).text())
+          }
+          if(_.isNumber(course.grade)) {
+            totalGrade += course.grade * course.ects;
+            totalECTS += course.ects;
+          }
+          data.push(course);
+        }
+        $('div.osidata').html("<h1>Your weighted average is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
+      } else {
+        alert("Strange data.");
+      }
+
+    } else {
+      alert("Could not read that data.");
+    }
+  });
+</script>
+</body>
+</html>
