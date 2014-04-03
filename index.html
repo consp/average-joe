@@ -10,9 +10,7 @@
 <h1>OSIRIS-bereken-je-gemiddelde-beuntool</h1>
 
 <ul>
-  <li>Ga naar OSIRIS. Duh.</li>
-  <li>Voortgang</li>
-  <li>Dossieroverzicht</li>
+  <li>Ga naar OSIRIS. <a href="https://osistud.tudelft.nl:4445/osiris_student/Dossier.do" target="_blank">KLIK</a></li>
   <li>Beknopt</li>
   <li>Alle resultaten</li>
   <li>Examenfase: Alle</li>
@@ -28,7 +26,7 @@
 
 </div>
 
-<div>Disclaimer: Dit is een beuntool. Je krijgt geen enkele garantie dat deze shit correct is. Doe ermee wat je wilt. Of niet.</div>
+<div>Disclaimer: Dit is een beuntool. Je krijgt geen enkele garantie dat deze shit correct is. Of uberhaupt werkt. Doe ermee wat je wilt. Of niet.</div>
 
 <div><a href="https://github.com/hylkev/average-joe">https://github.com/hylkev/average-joe</a></div>
 
@@ -60,7 +58,7 @@
             name: $($courseNames[i]).text(),
             date: $($examDates[i]).text(),
             grade: parseFloat($($examGrades[i]).text().replace(',', '.')) || $($examGrades[i]).text(),
-            ects: parseFloat($($courseECTS[i]).text())
+            ects: parseFloat($($courseECTS[i]).text().replace(',', '.'))
           }
           if(_.isNumber(course.grade) && _.isNumber(course.ects)) {
             totalGrade += course.grade * course.ects;
@@ -68,13 +66,18 @@
           }
           data.push(course);
         }
-        $('div.osidata').html("<h1>Your weighted average is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
+
+        if (totalGrade > 0 && totalECTS > 0) {
+          $('div.osidata').html("<h1>Je gewogen gemiddelde is " + Math.round( (totalGrade / totalECTS) * 100 ) / 100 + ".</h1>");
+        } else {
+          $('div.osidata').html("<h1>Je OSIRIS stuff klopt niet..</h1>");
+        }
       } else {
-        alert("Strange data.");
+        $('div.osidata').html("<h1>Je OSIRIS stuff klopt niet..</h1>");
       }
 
     } else {
-      alert("Could not read that data.");
+      $('div.osidata').html("<h1>Je plakt onleesbare troep. Probeer het maar lekker opnieuw.</h1>");
     }
   });
 </script>
