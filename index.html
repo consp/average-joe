@@ -60,7 +60,7 @@
             grade: parseFloat($($examGrades[i]).text().replace(',', '.')) || $($examGrades[i]).text(),
             ects: parseFloat($($courseECTS[i]).text().replace(',', '.'))
           }
-          if(_.isNumber(course.grade) && _.isNumber(course.ects)) {
+          if(_.isNumber(course.grade) && _.isNumber(course.ects) && ! _.isNaN(course.ects) && ! _.isNaN(course.grade) ) {
             totalGrade += course.grade * course.ects;
             totalECTS += course.ects;
           }
